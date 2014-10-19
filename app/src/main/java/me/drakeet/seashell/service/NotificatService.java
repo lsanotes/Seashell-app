@@ -208,8 +208,8 @@ public class NotificatService extends Service {
                 notifyBuilder.setContentTitle(word.getWord());
             notifyBuilder.setContentText(word.getSpeech() + " " + word.getExplanation());
             // init big view content
-            bigTextStyle.bigText(word.getExample());
-            bigTextStyle.setSummaryText(word.getSpeech() + " " + word.getExplanation());
+			bigTextStyle.bigText(word.getSpeech() + " " + word.getExplanation()
+					+ "\n" + word.getExample());
         }
         notifyBuilder.setWhen(System.currentTimeMillis());
         Intent notifyIntent = new Intent(this, MainActivity.class);
