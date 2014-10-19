@@ -13,6 +13,7 @@ import me.drakeet.seashell.R;
 import me.drakeet.seashell.model.Word;
 import me.drakeet.seashell.utils.TaskUtils;
 import me.drakeet.seashell.utils.ToastUtils;
+import me.drakeet.seashell.utils.NotificationUtils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -162,7 +163,7 @@ public class NotificatService extends Service {
         mWord = new Word();
         Gson gson = new Gson();
         mWord = gson.fromJson(mTodayGsonString, Word.class);
-        showWordInNotificationBar(mWord);
+        NotificationUtils.showWordInNotificationBar(this, mWord);
 
         if (mWord != null) {
             Message message = Message.obtain();
