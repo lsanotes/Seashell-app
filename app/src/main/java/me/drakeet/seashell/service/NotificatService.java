@@ -188,24 +188,29 @@ public class NotificatService extends Service {
         Random random = new Random();
         int i = random.nextInt((int) SystemClock.uptimeMillis());
 
-        NotificationCompat.Builder notifyBuilder;
-        notifyBuilder = new NotificationCompat.Builder(
-                this
-        );
-        notifyBuilder.setSmallIcon(R.drawable.ic_launcher);
-        // 初始化
-        notifyBuilder.setContentTitle("未联网");
-        notifyBuilder.setContentText("请尝试联网后重启程序...");
-        MySharedpreference mySharedpreference = new MySharedpreference(this);
-        boolean isWithPhonetic = mySharedpreference.getBoolean(getString(R.string.notify_with_phonetic));
+        NotificationCompat.Builder notifyBuilder =
+            new NotificationCompat.Builder(this)
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setContentTitle("未联网")
+            .setContentText("请尝试联网后重启程序...");
+
+        NotificationCompat.BigTextStyle bigTextStyle =
+                new NotificationCompat.BigTextStyle();
+        // Moves the big view style object into the notification object.
+        notifyBuilder.setStyle(bigTextStyle);
+
+        MySharedpreference mPrefs = new MySharedpreference(this);
+        boolean isWithPhonetic = mPrefs.getBoolean(getString(R.string.notify_with_phonetic));
         if (word != null) {
             if (isWithPhonetic)
                 notifyBuilder.setContentTitle(word.getWord() + " " + word.getPhonetic());
             else
                 notifyBuilder.setContentTitle(word.getWord());
             notifyBuilder.setContentText(word.getSpeech() + " " + word.getExplanation());
+            // init big view content
+            bigTextStyle.bigText(word.getExample());
+            bigTextStyle.setSummaryText(word.getSpeech() + " " + word.getExplanation());
         }
-        // 这里用来显示右下角的数字
         notifyBuilder.setWhen(System.currentTimeMillis());
         Intent notifyIntent = new Intent(this, MainActivity.class);
         notifyIntent.putExtra("is_from_notification", true);
