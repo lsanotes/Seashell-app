@@ -120,34 +120,35 @@ public class WordListActivity extends BaseActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
+                        if (finalWordList != null) {
+                            final MaterialDialog m = new MaterialDialog(WordListActivity.this);
+                            m.setTitle("删除 " + finalWordList.get(position - 1).getWord() + "?");
+                            m.setMessage("点击确定将删除此单词");
 
-                        final MaterialDialog m = new MaterialDialog(WordListActivity.this);
-                        m.setTitle("删除 " + finalWordList.get(position - 1).getWord() + "?");
-                        m.setMessage("点击确定将删除此单词");
-
-                        m.setNegativeButton(
-                                "取消",
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        m.dismiss();
+                            m.setNegativeButton(
+                                    "取消",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            m.dismiss();
+                                        }
                                     }
-                                }
-                        );
-                        m.setPositiveButton(
-                                "确定",
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        ToastUtils.showShort("已删除");
-                                        DataSupport.delete(FavoriteWord.class, finalWordList.get(position - 1).getId());
-                                        wordList.remove(position - 1);
-                                        ma.notifyDataSetChanged();
-                                        m.dismiss();
+                            );
+                            m.setPositiveButton(
+                                    "确定",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            ToastUtils.showShort("已删除");
+                                            DataSupport.delete(FavoriteWord.class, finalWordList.get(position - 1).getId());
+                                            wordList.remove(position - 1);
+                                            ma.notifyDataSetChanged();
+                                            m.dismiss();
+                                        }
                                     }
-                                }
-                        );
-                        m.show();
+                            );
+                            m.show();
+                        }
                         return false;
                     }
                 }
